@@ -1,15 +1,32 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import UserContext from "../contexts/UserContext"
+import { useContext } from "react"
+import apiTrans from "../services/apiTrans"
 
 export default function HomePage() {
+  const { user } = useContext(UserContext)
+  // console.log(user, "home")
+
+  function listarTransacoesList (){
+    apiTrans.listarTransacoes(user.token)
+      .then(ress =>{
+        const apiTransacoes = res.data
+        console.log(res.data)
+        setTransacoes(apiTransacoes)
+      })
+      .catch(err => {
+        alert(err.responde.data.message)
+      })
+  }
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
+        <h1>Olá, {user.name}</h1>
         <BiExit />
       </Header>
-
+      
       <TransactionsContainer>
         <ul>
           <ListItemContainer>

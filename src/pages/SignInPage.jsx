@@ -2,14 +2,15 @@ import styled from "styled-components"
 import { Link } from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
 import { useNavigate } from "react-router-dom"
-import apiAuth from "../../services/apiAuth"
+import apiAuth from "../services/apiAuth"
 import { useContext, useState } from "react"
+import UserContext from "../contexts/UserContext"
 
 export default function SignInPage() {
   const [email, setEmail] = useState("")
-    const [senha, setSenha] = useState("")
-    const { setUser} = useContext(UserContext)
-    const navigate = useNavigate()
+  const [senha, setSenha] = useState("")
+  const { user, setUser} = useContext(UserContext)
+  const navigate = useNavigate()
     
     function handleLogin(e){
         e.preventDefault()
@@ -20,7 +21,7 @@ export default function SignInPage() {
         .then(res => {
                        
             let localStorageContent = localStorage
-            //console.log(res.data)
+            // console.log(res.data, "res.data")
             const {name, token, email} = res.data
 
             if(!Array.isArray(localStorageContent)){
@@ -33,13 +34,12 @@ export default function SignInPage() {
                     return 
                 } else {
                     localStorage.setItem("token", token)
+                    navigate("/home")
                 }
-            });
+            });            
             
-
-            setUser({id, name, cpf, token, email})          
-           
-           
+            setUser({name, token})          
+                       
         })
         .catch(err => {
             alert(err.response.data.message)
@@ -49,7 +49,7 @@ export default function SignInPage() {
     }
   
   
-  
+  console.log(user, "login")
   return (
     <SingInContainer>
       <form onSubmit={handleLogin}>

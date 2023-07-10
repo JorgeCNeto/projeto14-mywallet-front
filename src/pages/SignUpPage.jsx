@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import MyWalletLogo from "../components/MyWalletLogo"
-import apiAuth from "../../services/apiAuth"
+import apiAuth from "../services/apiAuth"
 import { useState } from "react"
 
 export default function SignUpPage() {

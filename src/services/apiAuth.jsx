@@ -1,17 +1,15 @@
-import from "axios"
-
-const BASE_URL = ""
+import axios from "axios"
 
 function login(body) {
     //console.log(body, "body cadastro")
-    const promise = axios.post(`${BASE_URL}/login`, body)
-    console.log(promise)
+    const promise = axios.post(`${import.meta.env.VITE_API_URL}/login`, body)
+    //console.log(promise)
     return promise
 }
 
 function signUp(body){
     //console.log(body, "body cadastro")
-    const promise = axios.post(`${BASE_URL}/cadastro`, body)
+    const promise = axios.post(`${import.meta.env.VITE_API_URL}/cadastro`, body)
     
     return promise
 }
