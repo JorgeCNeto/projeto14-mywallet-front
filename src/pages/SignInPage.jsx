@@ -1,18 +1,78 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
+import { useNavigate } from "react-router-dom"
+import apiAuth from "../../services/apiAuth"
+import { useContext, useState } from "react"
 
 export default function SignInPage() {
+  const [email, setEmail] = useState("")
+    const [senha, setSenha] = useState("")
+    const { setUser} = useContext(UserContext)
+    const navigate = useNavigate()
+    
+    function handleLogin(e){
+        e.preventDefault()
+
+        const logar = {email, senha}
+        
+        apiAuth.login(logar)
+        .then(res => {
+                       
+            let localStorageContent = localStorage
+            //console.log(res.data)
+            const {name, token, email} = res.data
+
+            if(!Array.isArray(localStorageContent)){
+                localStorageContent = [localStorageContent]
+            }
+
+            localStorageContent.forEach(item => {
+                if(item.token === token){
+                    navigate("/home")
+                    return 
+                } else {
+                    localStorage.setItem("token", token)
+                }
+            });
+            
+
+            setUser({id, name, cpf, token, email})          
+           
+           
+        })
+        .catch(err => {
+            alert(err.response.data.message)
+        })
+
+        
+    }
+  
+  
+  
   return (
     <SingInContainer>
-      <form>
+      <form onSubmit={handleLogin}>
         <MyWalletLogo />
-        <input placeholder="E-mail" type="email" />
-        <input placeholder="Senha" type="password" autocomplete="new-password" />
-        <button>Entrar</button>
+        <input 
+          placeholder="E-mail" 
+          type="email" 
+          required
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+        <input 
+          placeholder="Senha" 
+          type="password" 
+          autocomplete="new-password" 
+          required
+          value={senha}
+          onChange={e => setSenha(e.target.value)}
+        />
+        <button type="submit">Entrar</button>
       </form>
 
-      <Link>
+      <Link to="/cadastro">
         Primeira vez? Cadastre-se!
       </Link>
     </SingInContainer>
