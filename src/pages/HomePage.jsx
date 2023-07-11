@@ -1,64 +1,84 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
-import UserContext from "../contexts/UserContext"
-import { useContext } from "react"
+import UserContext from "../TipoContext.jsx/UserContext"
+import TipoContext from "../TipoContext.jsx/TipoContext"
+import { useContext, useEffect, useState } from "react"
 import apiTrans from "../services/apiTrans"
+import TransationCard from "../components/TransationCard/TransationCard"
+
 
 export default function HomePage() {
   const { user } = useContext(UserContext)
   // console.log(user, "home")
+  const [transacoes, setTransacoes] = useState([])  
+  const { setTipo } = useContext(TipoContext)
+
+  useEffect(listarTransacoesList, [])
 
   function listarTransacoesList (){
     apiTrans.listarTransacoes(user.token)
-      .then(ress =>{
-        const apiTransacoes = res.data
-        console.log(res.data)
-        setTransacoes(apiTransacoes)
+      .then(ress =>{    
+        setIsLoading(false)    
+        //console.log(res.data)
+        setTransacoes(res.data)
       })
       .catch(err => {
+        setIsLoading(false) 
         alert(err.responde.data.message)
       })
   }
+
+  
+
+  function adicionar(){
+    setTipo(entrada)
+    navigate("/nova-transacao/:tipo")
+  }
+
+  function retirar(){
+    setTipo(saida)
+    navigate("/nova-transacao/:tipo")
+  }
+
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, {user.name}</h1>
-        <BiExit />
+        <h1 data-test="user-name">Olá, {user.name}</h1>
+        <BiExit data-test="logout"/>
       </Header>
       
       <TransactionsContainer>
         <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
-          </ListItemContainer>
-
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+          { transacoes.length === 0 ? (
+            <SemRegistro>Não há registros de entrada ou saída</SemRegistro>
+            ) : (
+                <>{transacoes.map(t =>{
+                  <TransationCard 
+                  data={t.data}
+                  descricao={t.descricao}
+                  tipo={t.tipo}
+                  valor={t.valor}
+                  />
+                })}</>
+            )
+          }
+                   
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={"positivo"} data-test="total-amount">{soma}</Value>
         </article>
       </TransactionsContainer>
 
 
       <ButtonsContainer>
-        <button>
+        <button onClick={adicionar()} data-test="new-income">
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button>
+        <button onClick={retirar()} data-test="new-expense">
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>
@@ -135,4 +155,9 @@ const ListItemContainer = styled.li`
     color: #c6c6c6;
     margin-right: 10px;
   }
+`
+
+const SemRegistro = styled.p`
+  font-family: "Raleway";
+  font-size: 20px;  
 `

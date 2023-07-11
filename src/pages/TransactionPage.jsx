@@ -1,13 +1,16 @@
 import styled from "styled-components"
+import TipoContext from "../TipoContext.jsx/TipoContext"
 
 export default function TransactionsPage() {
+  const { tipo } = useContext(TipoContext)
+
   return (
     <TransactionsContainer>
-      <h1>Nova TRANSAÇÃO</h1>
+      <h1>Nova {tipo}</h1>
       <form>
-        <input placeholder="Valor" type="text"/>
-        <input placeholder="Descrição" type="text" />
-        <button>Salvar TRANSAÇÃO</button>
+        <input placeholder="Valor" type="text" data-test="registry-amount-input"/>
+        <input placeholder="Descrição" type="text" data-test="registry-name-input"/>
+        <button data-test="registry-save">Salvar {tipo}</button>
       </form>
     </TransactionsContainer>
   )

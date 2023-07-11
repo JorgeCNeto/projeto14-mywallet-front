@@ -4,7 +4,7 @@ import MyWalletLogo from "../components/MyWalletLogo"
 import { useNavigate } from "react-router-dom"
 import apiAuth from "../services/apiAuth"
 import { useContext, useState } from "react"
-import UserContext from "../contexts/UserContext"
+import UserContext from "../TipoContext.jsx/UserContext"
 
 export default function SignInPage() {
   const [email, setEmail] = useState("")
@@ -60,6 +60,7 @@ export default function SignInPage() {
           required
           value={email}
           onChange={e => setEmail(e.target.value)}
+          data-test="email"
         />
         <input 
           placeholder="Senha" 
@@ -68,8 +69,9 @@ export default function SignInPage() {
           required
           value={senha}
           onChange={e => setSenha(e.target.value)}
+          data-test="password"
         />
-        <button type="submit">Entrar</button>
+        <button type="submit" data-test="sign-in-submit">Entrar</button>
       </form>
 
       <Link to="/cadastro">
