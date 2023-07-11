@@ -4,7 +4,7 @@ import MyWalletLogo from "../components/MyWalletLogo"
 import { useNavigate } from "react-router-dom"
 import apiAuth from "../services/apiAuth"
 import { useContext, useState } from "react"
-import UserContext from "../TipoContext.jsx/UserContext"
+import UserContext from "../contexts/UserContext"
 
 export default function SignInPage() {
   const [email, setEmail] = useState("")

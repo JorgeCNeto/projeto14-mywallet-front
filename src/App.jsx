@@ -5,8 +5,8 @@ import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
 import TransactionsPage from "./pages/TransactionPage"
 import { useState } from "react"
-import  UserContext  from "./TipoContext.jsx/UserContext"
-import  TipoContext  from "./TipoContext.jsx/TipoContext"
+import  UserContext  from "./contexts/UserContext"
+import  TipoContext  from "./contexts/TipoContext"
 
 export default function App() {
   const[user, setUser] = useState({})

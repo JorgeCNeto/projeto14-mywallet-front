@@ -5,7 +5,7 @@ function TransationCard(){
     return(
         <ListItemContainer>
             <div>
-                <span>{data}</span>
+                <DataRegistro>{data}</DataRegistro>
                 <strong data-test="regitry-name">{descricao}</strong>
             </div>
             <TipoDeRegistro color={tipo} data-test="registry-amount">{valor}</TipoDeRegistro>
@@ -34,4 +34,9 @@ const TipoDeRegistro = styled.div`
   font-size: 16px;
   text-align: right;
   color: ${(props) => (props.color === "entrada" ? "green" : "red")};
+`
+const DataRegistro = styled.span`
+  font-family: "Raleway";
+  font-size: 16px;
+  color: #C6C6C6;
 `

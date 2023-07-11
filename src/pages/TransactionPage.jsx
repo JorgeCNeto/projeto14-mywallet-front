@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import TipoContext from "../TipoContext.jsx/TipoContext"
+import TipoContext from "../contexts/TipoContext"
 
 export default function TransactionsPage() {
   const { tipo } = useContext(TipoContext)

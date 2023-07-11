@@ -1,8 +1,8 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
-import UserContext from "../TipoContext.jsx/UserContext"
-import TipoContext from "../TipoContext.jsx/TipoContext"
+import UserContext from "../contexts/UserContext"
+import TipoContext from "../contexts/TipoContext"
 import { useContext, useEffect, useState } from "react"
 import apiTrans from "../services/apiTrans"
 import TransationCard from "../components/TransationCard/TransationCard"
@@ -13,6 +13,7 @@ export default function HomePage() {
   // console.log(user, "home")
   const [transacoes, setTransacoes] = useState([])  
   const { setTipo } = useContext(TipoContext)
+  const [valores, setValores] = useState([])
 
   useEffect(listarTransacoesList, [])
 
@@ -59,7 +60,7 @@ export default function HomePage() {
                   descricao={t.descricao}
                   tipo={t.tipo}
                   valor={t.valor}
-                  />
+                  />                  
                 })}</>
             )
           }
@@ -111,6 +112,10 @@ const TransactionsContainer = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex-flow: column nowrap;
+  outline: none;
+  overflow: hidden;
+  overflow-y: scroll;
   article {
     display: flex;
     justify-content: space-between;   
