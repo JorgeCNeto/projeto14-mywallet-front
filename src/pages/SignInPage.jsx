@@ -9,7 +9,7 @@ import UserContext from "../contexts/UserContext"
 export default function SignInPage() {
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
-  const { user, setUser} = useContext(UserContext)
+  const { setUserName, setToken } = useContext(UserContext)
   const navigate = useNavigate()
     
     function handleLogin(e){
@@ -20,25 +20,29 @@ export default function SignInPage() {
         apiAuth.login(logar)
         .then(res => {
                        
-            let localStorageContent = localStorage
+            // let localStorageContent = localStorage
             // console.log(res.data, "res.data")
-            const {name, token, email} = res.data
+            // const {name, token, email} = res.data
 
-            if(!Array.isArray(localStorageContent)){
-                localStorageContent = [localStorageContent]
-            }
+            // if(!Array.isArray(localStorageContent)){
+            //     localStorageContent = [localStorageContent]
+            // }
 
-            localStorageContent.forEach(item => {
-                if(item.token === token){
-                    navigate("/home")
-                    return 
-                } else {
-                    localStorage.setItem("token", token)
-                    navigate("/home")
-                }
-            });            
+            // localStorageContent.forEach(item => {
+            //     if(item.token === token){
+            //         navigate("/home")
+            //         return 
+            //     } else {
+            //         localStorage.setItem("token", token)
+            //         navigate("/home")
+            //     }
+            // });            
             
-            setUser({name, token})          
+            setUserName(res.data.userName)   
+            setToken(res.data.token)  
+            localStorage.setItem("userName", res.data.userName)
+            localStorage.setItem("token", res.data.token)
+            navigate("/home")
                        
         })
         .catch(err => {
@@ -49,7 +53,7 @@ export default function SignInPage() {
     }
   
   
-  console.log(user, "login")
+  
   return (
     <SingInContainer>
       <form onSubmit={handleLogin}>

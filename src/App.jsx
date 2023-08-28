@@ -9,13 +9,14 @@ import  UserContext  from "./contexts/UserContext"
 import  TipoContext  from "./contexts/TipoContext"
 
 export default function App() {
-  const[user, setUser] = useState({})
+  const[userName, setUserName] = useState(undefined)
+  const [token, setToken] = useState(undefined)
   const[tipo, setTipo] = useState({})
   
   return (
     <PagesContainer>
       <BrowserRouter>
-        <UserContext.Provider value={{user, setUser } }>
+        <UserContext.Provider value={{userName, setUserName, token, setToken } }>
           <TipoContext.Provider value={{tipo, setTipo}}>
             <Routes>
               <Route path="/" element={<SignInPage />} />
