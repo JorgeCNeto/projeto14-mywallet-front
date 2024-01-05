@@ -6,20 +6,29 @@ import TipoContext from "../contexts/TipoContext"
 import { useContext, useEffect, useState } from "react"
 import apiTrans from "../services/apiTrans"
 import TransationCard from "../components/TransationCard/TransationCard"
+import { useNavigate } from "react-router-dom"
 
 
 export default function HomePage() {
-  const { user } = useContext(UserContext)
+  const { userName, token } = useContext(UserContext)
   // console.log(user, "home")
   const [transacoes, setTransacoes] = useState([])  
   const { setTipo } = useContext(TipoContext)
   const [valores, setValores] = useState([])
+  const navigate = useNavigate()
+  let soma, entrada, saida;
+
+  useEffect (() => {
+    if(!userName || !token){
+      navigate("/")
+    }
+  }, [])
 
   useEffect(listarTransacoesList, [])
 
   function listarTransacoesList (){
-    apiTrans.listarTransacoes(user.token)
-      .then(ress =>{    
+    apiTrans.listarTransacoes(token)
+      .then(res =>{    
         setIsLoading(false)    
         //console.log(res.data)
         setTransacoes(res.data)
@@ -45,7 +54,7 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1 data-test="user-name">Olá, {user.name}</h1>
+        <h1 data-test="user-name">Olá, {userName}</h1>
         <BiExit data-test="logout"/>
       </Header>
       
@@ -80,7 +89,7 @@ export default function HomePage() {
           <p>Nova <br /> entrada</p>
         </button>
         <button onClick={retirar()} data-test="new-expense">
-          <AiOutlineMinusCircle />
+          <AiOutlineMinusCircle /> 
           <p>Nova <br />saída</p>
         </button>
       </ButtonsContainer>

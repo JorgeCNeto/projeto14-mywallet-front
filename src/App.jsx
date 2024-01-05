@@ -11,7 +11,7 @@ import  TipoContext  from "./contexts/TipoContext"
 export default function App() {
   const[userName, setUserName] = useState(localStorage.getItem("userName"))
   const [token, setToken] = useState(localStorage.getItem("token"))
-  const[tipo, setTipo] = useState({})
+  const[tipo, setTipo] = useState("")
   
   return (
     <PagesContainer>

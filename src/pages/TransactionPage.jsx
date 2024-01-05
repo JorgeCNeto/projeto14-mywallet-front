@@ -1,9 +1,10 @@
 import styled from "styled-components"
+import { useContext } from "react"
 import TipoContext from "../contexts/TipoContext"
 
 export default function TransactionsPage() {
   const { tipo } = useContext(TipoContext)
-
+  console.log(tipo, "tipo")
   return (
     <TransactionsContainer>
       <h1>Nova {tipo}</h1>
